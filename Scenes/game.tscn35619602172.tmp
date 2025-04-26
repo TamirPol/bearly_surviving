@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://r3c7hq0lwiov"]
+
+[ext_resource type="PackedScene" uid="uid://nhns6dmule0g" path="res://Scenes/player.tscn" id="1_ebmjs"]
+[ext_resource type="Script" uid="uid://dx2iy1tl0ksat" path="res://Scripts/game.gd" id="1_i6g32"]
+[ext_resource type="PackedScene" uid="uid://dwasi8kwvek8a" path="res://Scenes/enemy.tscn" id="1_qxrlw"]
+[ext_resource type="Script" uid="uid://ck53jgws05ky8" path="res://Scripts/spawn_manager.gd" id="3_wrm1d"]
+[ext_resource type="PackedScene" uid="uid://csfc1wl02sxl" path="res://Scenes/berry.tscn" id="4_3dryh"]
+[ext_resource type="PackedScene" uid="uid://kofv5g3u7pve" path="res://Scenes/flower.tscn" id="4_wowpa"]
+[ext_resource type="PackedScene" uid="uid://ca8y35qas63j6" path="res://Scenes/honey.tscn" id="7_1l0tm"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ebmjs"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_i6g32")
+
+[node name="Enemy" parent="." instance=ExtResource("1_qxrlw")]
+position = Vector2(380, 260)
+
+[node name="Player" parent="." instance=ExtResource("1_ebmjs")]
+z_index = 5
+position = Vector2(670, 430)
+speed = 400
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(579, 322)
+
+[node name="World Boundary" type="Node" parent="."]
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="World Boundary"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Boundary/StaticBody2D4"]
+position = Vector2(1150, 650)
+rotation = -1.5708
+shape = SubResource("WorldBoundaryShape2D_ebmjs")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="World Boundary"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Boundary/StaticBody2D3"]
+position = Vector2(0, 650)
+rotation = 1.5708
+shape = SubResource("WorldBoundaryShape2D_ebmjs")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="World Boundary"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Boundary/StaticBody2D2"]
+position = Vector2(0, 650)
+shape = SubResource("WorldBoundaryShape2D_ebmjs")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="World Boundary"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Boundary/StaticBody2D"]
+rotation = 3.14159
+shape = SubResource("WorldBoundaryShape2D_ebmjs")
+
+[node name="Spawn Manager" type="Node2D" parent="."]
+script = ExtResource("3_wrm1d")
+berry_scene = ExtResource("4_3dryh")
+flower_scene = ExtResource("4_wowpa")
+honey_scene = ExtResource("7_1l0tm")
+spawn_area = Rect2(15, 15, 1112, 618)

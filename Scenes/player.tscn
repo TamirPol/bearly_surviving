@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://nhns6dmule0g"]
+
+[ext_resource type="Script" uid="uid://bu0rfd0phib5a" path="res://Scripts/player.gd" id="1_cvnsp"]
+[ext_resource type="Texture2D" uid="uid://cs4wv8mw7v2uk" path="res://Assets/bear.webp" id="2_cvnsp"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v0iea"]
+radius = 14.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cvnsp"]
+radius = 33.0
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_cvnsp")
+speed = 250
+
+[node name="attack_length" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.4, 1.4)
+texture = ExtResource("2_cvnsp")
+
+[node name="attack_cooldown" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -3)
+shape = SubResource("CircleShape2D_v0iea")
+
+[node name="Sword Swing" type="Area2D" parent="."]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sword Swing"]
+position = Vector2(1, -1)
+shape = SubResource("CircleShape2D_cvnsp")
+
+[connection signal="timeout" from="attack_length" to="." method="_on_attack_length_timeout"]
+[connection signal="timeout" from="attack_cooldown" to="." method="_on_attack_cooldown_timeout"]
+[connection signal="body_entered" from="Sword Swing" to="." method="_on_sword_swing_body_entered"]

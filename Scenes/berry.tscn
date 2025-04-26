@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://csfc1wl02sxl"]
+
+[ext_resource type="Script" uid="uid://csvf11vsjdwc4" path="res://Scripts/berry.gd" id="1_d1hax"]
+[ext_resource type="Texture2D" uid="uid://c7w8xjtyrajib" path="res://Assets/berry.png" id="2_d1hax"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7jvql"]
+radius = 11.0
+
+[node name="Berry" type="Area2D"]
+scale = Vector2(2, 2)
+script = ExtResource("1_d1hax")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_d1hax")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_7jvql")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

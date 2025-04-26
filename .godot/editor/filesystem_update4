@@ -1,0 +1,13 @@
+res://Scenes/player.tscn
+res://Scenes/game.tscn
+res://Scripts/player.gd
+res://Scenes/enemy.tscn
+res://Scripts/enemy.gd
+res://Scripts/spawn_manager.gd
+res://Scenes/berry.tscn
+res://Scripts/berry.gd
+res://Scenes/honey.tscn
+res://Scripts/honey.gd
+res://Scenes/flower.tscn
+res://Scripts/flower.gd
+res://Scripts/game.gd
