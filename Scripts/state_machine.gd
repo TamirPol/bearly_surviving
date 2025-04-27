@@ -3,14 +3,16 @@ var current_state: State
 var states: Dictionary = {}
 @export var initial_state: State
 func _ready() -> void:
+	set_process(true)  # <<< Add this!
+	
 	for child in get_children():
 		if child is State:
 			states[child.name.to_lower()] = child
 			child.Transitioned.connect(on_child_transition)
 	if initial_state:
-		print(initial_state)
 		initial_state.Enter()
 		current_state = initial_state
+
 		
 func _process(delta):
 	if current_state:
@@ -33,8 +35,10 @@ func on_child_transition(state, new_state_name):
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	on_child_transition(current_state, "Attack")
+	if body.name == "Player":
+		on_child_transition(current_state, "Attack")
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
-	on_child_transition(current_state, "Idle")
+	if body.name == "Player":
+		on_child_transition(current_state, "Idle")

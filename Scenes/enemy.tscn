@@ -1,10 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://dwasi8kwvek8a"]
+[gd_scene load_steps=11 format=3 uid="uid://dwasi8kwvek8a"]
 
 [ext_resource type="Script" uid="uid://cmyk13pvlk1v2" path="res://Scripts/enemy.gd" id="1_1f0kj"]
-[ext_resource type="Texture2D" uid="uid://cmrc4154e4lao" path="res://Assets/temp.png" id="1_hghv2"]
 [ext_resource type="Script" uid="uid://vl6ly6o2jb8a" path="res://Scripts/state_machine.gd" id="3_afpow"]
 [ext_resource type="Script" uid="uid://buu5b71v16k40" path="res://Scripts/attack.gd" id="4_287tu"]
 [ext_resource type="Script" uid="uid://dk68fce35n6y3" path="res://Scripts/idle.gd" id="5_0830c"]
+[ext_resource type="Texture2D" uid="uid://du5yewa8k1ol5" path="res://Assets/enemy1.webp" id="5_ghaa6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hghv2"]
 radius = 25.02
@@ -12,12 +12,31 @@ radius = 25.02
 [sub_resource type="CircleShape2D" id="CircleShape2D_0830c"]
 radius = 199.449
 
-[node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
-script = ExtResource("1_1f0kj")
+[sub_resource type="AtlasTexture" id="AtlasTexture_1dp5w"]
+atlas = ExtResource("5_ghaa6")
+region = Rect2(0, 0, 16, 16)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_hghv2")
+[sub_resource type="AtlasTexture" id="AtlasTexture_auwsv"]
+atlas = ExtResource("5_ghaa6")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8uf12"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1dp5w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_auwsv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
+z_index = 2
+script = ExtResource("1_1f0kj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["enemy"]]
 shape = SubResource("CircleShape2D_hghv2")
@@ -26,9 +45,11 @@ shape = SubResource("CircleShape2D_hghv2")
 script = ExtResource("3_afpow")
 initial_state = NodePath("Idle")
 
-[node name="Attack" type="Node" parent="State Machine" node_paths=PackedStringArray("enemy")]
+[node name="Attack" type="Node" parent="State Machine" node_paths=PackedStringArray("enemy", "timer")]
 script = ExtResource("4_287tu")
 enemy = NodePath("../..")
+move_speed = 150.0
+timer = NodePath("../../Shoot_Timer")
 
 [node name="Idle" type="Node" parent="State Machine" node_paths=PackedStringArray("enemy")]
 script = ExtResource("5_0830c")
@@ -40,5 +61,17 @@ move_speed = 100.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_0830c")
 
+[node name="Shoot_Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1.19209e-07, -2)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_8uf12")
+autoplay = "default"
+frame_progress = 0.787953
+
 [connection signal="body_entered" from="Area2D" to="State Machine" method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="State Machine" method="_on_area_2d_body_exited"]
+[connection signal="timeout" from="Shoot_Timer" to="State Machine/Attack" method="_on_shoot_timer_timeout"]

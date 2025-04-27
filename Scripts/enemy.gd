@@ -40,3 +40,5 @@ func take_damage():
 		
 func put_seeds():
 	pass
+func _physics_process(delta: float) -> void:
+	move_and_slide()

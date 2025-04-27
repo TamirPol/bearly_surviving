@@ -22,6 +22,7 @@ func spawn_items():
 		spawn_item(flower_scene, "flower")
 	for i in honey_amount:
 		spawn_item(honey_scene, "honey")
+	return resources
 
 func spawn_item(scene: PackedScene, name: String):	
 	var max_attempts = 10

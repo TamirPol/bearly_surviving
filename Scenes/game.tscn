@@ -313,7 +313,7 @@ position = Vector2(784, 182)
 
 [node name="Player" parent="." instance=ExtResource("1_ebmjs")]
 z_index = 5
-position = Vector2(137, 90)
+position = Vector2(553, 347)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(579, 322)
@@ -352,3 +352,5 @@ berry_scene = ExtResource("4_3dryh")
 flower_scene = ExtResource("4_wowpa")
 honey_scene = ExtResource("7_1l0tm")
 spawn_area = Rect2(15, 15, 1112, 618)
+
+[connection signal="player_collected" from="Player" to="." method="_on_player_player_collected"]

@@ -10,3 +10,7 @@ res://Scripts/attack.gd
 res://Scripts/state.gd
 res://Scripts/idle.gd
 res://Scripts/spawn_manager.gd
+res://Scripts/enemy.gd
+res://Scenes/bullet.tscn
+res://Scripts/bullet.gd
+res://Scripts/game.gd
