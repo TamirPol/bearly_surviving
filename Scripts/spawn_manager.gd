@@ -16,7 +16,6 @@ func spawn_items():
 	var berry_amount = randi_range(2, 8)
 	var flower_amount = randi_range(2, 8-berry_amount)
 	var honey_amount = 10-berry_amount-flower_amount
-	print(berry_amount, flower_amount,honey_amount)
 	for i in berry_amount:
 		spawn_item(berry_scene, "berry")
 	for i in flower_amount:
@@ -36,7 +35,6 @@ func spawn_item(scene: PackedScene, name: String):
 		)
 
 		found_spot = true
-		print(random_pos)
 		for pos in used_positions:
 			if pos.distance_to(random_pos) < 30:
 				found_spot = false

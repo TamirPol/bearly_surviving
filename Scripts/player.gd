@@ -1,14 +1,14 @@
 extends CharacterBody2D
 
-@export var speed := 150
-#@onready var anim = $AnimatedSprite2d
+@export var speed := 80
+@onready var anim = $AnimatedSprite2D
 @export var inventory = {
 	"berry": 0,
 	"flower": 0,
 	"honey": 0,
 	"seeds": 0
 }
-var facing_direction := Vector2.UP
+var facing_direction : String = "backward"
 var can_attack = true
 @export var allowed = true
 @export var sword = null
@@ -17,20 +17,34 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	if allowed:
+		var moving = false
 		var dir = Vector2.ZERO
 		if Input.is_action_pressed("down"):
 			dir.y += 1
+			moving = true
+			facing_direction = "backward"
 		if Input.is_action_pressed("up"):
 			dir.y -= 1
+			moving = true
+			facing_direction = "forward"
 		if Input.is_action_pressed("left"):
 			dir.x -= 1
+			moving = true
+			facing_direction = "left"
 		if Input.is_action_pressed("right"):
-			dir.x += 1 
+			dir.x += 1
+			moving = true 
+			facing_direction = "right"
 		velocity = dir.normalized() * speed
 		move_and_slide()
-	if Input.is_action_just_pressed("attack") and can_attack:
-		attack()
-
+		update_animation(moving)
+		if Input.is_action_just_pressed("attack") and can_attack:
+			attack()
+	
+func update_animation(moving):
+	if moving: anim.animation = "walk_%s" % facing_direction
+	else: anim.animation = "idle_%s" % facing_direction
+	anim.play()
 func attack():
 	can_attack = false
 	sword.monitoring = true
